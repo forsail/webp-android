@@ -6,7 +6,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.3.0'
+        classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1'
     }
@@ -14,7 +14,7 @@ buildscript {
 
 android {
     compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    buildToolsVersion "26.0.1"
 
     defaultConfig {
         targetSdkVersion 22
@@ -30,8 +30,9 @@ android {
         }
     }
 
-    archivesBaseName=getName()
-    version='1.0.'+(System.getenv('BUILD_NUMBER') ? System.getenv('BUILD_NUMBER') : '0-LOCAL')
+    archivesBaseName = getName()
+    //BUILD_NUMBER为配置的环境变量
+    version = '1.0.' + (System.getenv('BUILD_NUMBER') ? System.getenv('BUILD_NUMBER') : '0-LOCAL')
 
     //rename the aar to {archivesBaseName}-{version}.aar
     libraryVariants.all { variant ->
@@ -48,7 +49,7 @@ android {
 // call regular ndk-build(.cmd) script from app directory
 task ndkBuild(type: Exec) {
     String ndkDir = android.ndkDirectory
-    commandLine "$ndkDir/ndk-build", '-j8', '-C', file('src/main/jni').absolutePath
+    commandLine "$ndkDir/ndk-build.cmd", '-j8', '-C', file('src/main/jni').absolutePath
 }
 
 tasks.withType(JavaCompile) {
@@ -61,5 +62,5 @@ clean.dependsOn(cleanExtra)
 
 group = 'me.everything'
 
-apply plugin: 'com.jfrog.artifactory-upload'
-apply plugin: 'android-maven'
+//apply plugin: 'com.jfrog.artifactory-upload'
+//apply plugin: 'android-maven'
