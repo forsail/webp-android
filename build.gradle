@@ -52,10 +52,14 @@ task ndkBuild(type: Exec) {
     //ndk-build -C <project路径>  先cd进入<project路径>，然后执行ndk-build,'-j8'是多核编译的意思
     def osName = System.getProperty("os.name")
     println("******the system is $osName******")
+    def ndkCommend
     if (osName.contains("Mac")) {
-        commandLine "$ndkDir/ndk-build", '-j8', '-C', file('src/main/jni').absolutePath
+        ndkCommend = 'ndk-build'
     } else if (osName.contains("Windows")) {
-        commandLine "$ndkDir/ndk-build.cmd", '-j8', '-C', file('src/main/jni').absolutePath
+        ndkCommend = 'ndk-build.cmd'
+    }
+    if (ndkCommend) {
+        commandLine "$ndkDir/$ndkCommend", '-j8', '-C', file('src/main/jni').absolutePath
     }
 }
 
