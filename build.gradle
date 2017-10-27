@@ -50,7 +50,13 @@ android {
 task ndkBuild(type: Exec) {
     String ndkDir = android.ndkDirectory
     //ndk-build -C <project路径>  先cd进入<project路径>，然后执行ndk-build,'-j8'是多核编译的意思
-    commandLine "$ndkDir/ndk-build.cmd", '-j8', '-C', file('src/main/jni').absolutePath
+    def osName = System.getProperty("os.name")
+    println("******the system is $osName******")
+    if (osName.contains("Mac")) {
+        commandLine "$ndkDir/ndk-build", '-j8', '-C', file('src/main/jni').absolutePath
+    } else if (osName.contains("Windows")) {
+        commandLine "$ndkDir/ndk-build.cmd", '-j8', '-C', file('src/main/jni').absolutePath
+    }
 }
 
 tasks.withType(JavaCompile) {
