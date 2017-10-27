@@ -49,7 +49,7 @@ android {
 // call regular ndk-build(.cmd) script from app directory
 task ndkBuild(type: Exec) {
     String ndkDir = android.ndkDirectory
-    //ndk-build -C <project路径>  先cd进入<project路径>，然后执行ndk-build
+    //ndk-build -C <project路径>  先cd进入<project路径>，然后执行ndk-build,'-j8'是多核编译的意思
     commandLine "$ndkDir/ndk-build.cmd", '-j8', '-C', file('src/main/jni').absolutePath
 }
 
